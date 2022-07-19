@@ -1,0 +1,398 @@
+
+HW3S1.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001fa  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000046  00800060  000001fa  0000026e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000002b4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002e4  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000d0  00000000  00000000  00000320  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000009be  00000000  00000000  000003f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000782  00000000  00000000  00000dae  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000621  00000000  00000000  00001530  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000124  00000000  00000000  00001b54  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003fb  00000000  00000000  00001c78  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001c5  00000000  00000000  00002073  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000080  00000000  00000000  00002238  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ea ef       	ldi	r30, 0xFA	; 250
+  68:	f1 e0       	ldi	r31, 0x01	; 1
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a6 3a       	cpi	r26, 0xA6	; 166
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 94 00 	call	0x128	; 0x128 <main>
+  7a:	0c 94 fb 00 	jmp	0x1f6	; 0x1f6 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <init_segment>:
+
+const bool segment_table[10][7] = {{1,1,1,1,1,1,0},{0,1,1,0,0,0,0},{1,1,0,1,1,0,1},{1,1,1,1,0,0,1},{0,1,1,0,0,1,1},{1,0,1,1,0,1,1},{0,1,1,1,1,0,1},{1,1,1,0,0,0,0},{1,1,1,1,1,1,1},{1,1,1,1,0,1,1},};
+
+void init_segment()
+{
+	init_port();
+  82:	0e 94 aa 00 	call	0x154	; 0x154 <init_port>
+  86:	08 95       	ret
+
+00000088 <write_number>:
+}
+
+void write_number(uint8_t num)
+{
+  88:	cf 93       	push	r28
+	uint8_t digit1 = num % 10;
+  8a:	2d ec       	ldi	r18, 0xCD	; 205
+  8c:	82 9f       	mul	r24, r18
+  8e:	31 2d       	mov	r19, r1
+  90:	11 24       	eor	r1, r1
+  92:	93 2f       	mov	r25, r19
+  94:	96 95       	lsr	r25
+  96:	96 95       	lsr	r25
+  98:	96 95       	lsr	r25
+  9a:	99 0f       	add	r25, r25
+  9c:	49 2f       	mov	r20, r25
+  9e:	44 0f       	add	r20, r20
+  a0:	44 0f       	add	r20, r20
+  a2:	94 0f       	add	r25, r20
+  a4:	89 1b       	sub	r24, r25
+  a6:	98 2f       	mov	r25, r24
+	num /= 10; 
+  a8:	83 2f       	mov	r24, r19
+  aa:	86 95       	lsr	r24
+  ac:	86 95       	lsr	r24
+  ae:	86 95       	lsr	r24
+	uint8_t digit2 = num % 10;
+  b0:	82 9f       	mul	r24, r18
+  b2:	21 2d       	mov	r18, r1
+  b4:	11 24       	eor	r1, r1
+  b6:	c2 2f       	mov	r28, r18
+  b8:	c6 95       	lsr	r28
+  ba:	c6 95       	lsr	r28
+  bc:	c6 95       	lsr	r28
+  be:	2c 2f       	mov	r18, r28
+  c0:	22 0f       	add	r18, r18
+  c2:	c2 2f       	mov	r28, r18
+  c4:	cc 0f       	add	r28, r28
+  c6:	cc 0f       	add	r28, r28
+  c8:	2c 0f       	add	r18, r28
+  ca:	c8 2f       	mov	r28, r24
+  cc:	c2 1b       	sub	r28, r18
+	
+	write_port1(segment_table[digit1]);
+  ce:	29 2f       	mov	r18, r25
+  d0:	30 e0       	ldi	r19, 0x00	; 0
+  d2:	c9 01       	movw	r24, r18
+  d4:	88 0f       	add	r24, r24
+  d6:	99 1f       	adc	r25, r25
+  d8:	88 0f       	add	r24, r24
+  da:	99 1f       	adc	r25, r25
+  dc:	88 0f       	add	r24, r24
+  de:	99 1f       	adc	r25, r25
+  e0:	82 1b       	sub	r24, r18
+  e2:	93 0b       	sbc	r25, r19
+  e4:	80 5a       	subi	r24, 0xA0	; 160
+  e6:	9f 4f       	sbci	r25, 0xFF	; 255
+  e8:	0e 94 b1 00 	call	0x162	; 0x162 <write_port1>
+	write_port2(segment_table[digit2]);
+  ec:	2c 2f       	mov	r18, r28
+  ee:	30 e0       	ldi	r19, 0x00	; 0
+  f0:	c9 01       	movw	r24, r18
+  f2:	88 0f       	add	r24, r24
+  f4:	99 1f       	adc	r25, r25
+  f6:	88 0f       	add	r24, r24
+  f8:	99 1f       	adc	r25, r25
+  fa:	88 0f       	add	r24, r24
+  fc:	99 1f       	adc	r25, r25
+  fe:	82 1b       	sub	r24, r18
+ 100:	93 0b       	sbc	r25, r19
+ 102:	80 5a       	subi	r24, 0xA0	; 160
+ 104:	9f 4f       	sbci	r25, 0xFF	; 255
+ 106:	0e 94 d6 00 	call	0x1ac	; 0x1ac <write_port2>
+}
+ 10a:	cf 91       	pop	r28
+ 10c:	08 95       	ret
+
+0000010e <init_adder>:
+#include "./../../MCAL/GetNumber/GetNumbers.h"
+#include "AddNumbers.h"
+
+void init_adder()
+{
+	init_numbers();
+ 10e:	0e 94 9d 00 	call	0x13a	; 0x13a <init_numbers>
+ 112:	08 95       	ret
+
+00000114 <add_numbers>:
+}
+
+uint8_t add_numbers()
+{
+ 114:	cf 93       	push	r28
+	return (get_number1() + get_number2()) & 0b00011111;
+ 116:	0e 94 a1 00 	call	0x142	; 0x142 <get_number1>
+ 11a:	c8 2f       	mov	r28, r24
+ 11c:	0e 94 a5 00 	call	0x14a	; 0x14a <get_number2>
+ 120:	8c 0f       	add	r24, r28
+ 122:	8f 71       	andi	r24, 0x1F	; 31
+ 124:	cf 91       	pop	r28
+ 126:	08 95       	ret
+
+00000128 <main>:
+#include "./ECU/7-Segment/Segment.h"
+#include "./ECU/AddNumers/AddNumbers.h"
+#include <avr/io.h>
+int main(void)
+{
+	init_segment();
+ 128:	0e 94 41 00 	call	0x82	; 0x82 <init_segment>
+	init_adder();
+ 12c:	0e 94 87 00 	call	0x10e	; 0x10e <init_adder>
+	
+    while (1) 
+    {
+		write_number(add_numbers());
+ 130:	0e 94 8a 00 	call	0x114	; 0x114 <add_numbers>
+ 134:	0e 94 44 00 	call	0x88	; 0x88 <write_number>
+ 138:	fb cf       	rjmp	.-10     	; 0x130 <main+0x8>
+
+0000013a <init_numbers>:
+
+#include "GetNumbers.h"
+
+void init_numbers()
+{
+	NUMBERS_DDR = 0x00;
+ 13a:	1a ba       	out	0x1a, r1	; 26
+	NUMBERS_PORT = 0xFF; // Pull resistors on
+ 13c:	8f ef       	ldi	r24, 0xFF	; 255
+ 13e:	8b bb       	out	0x1b, r24	; 27
+ 140:	08 95       	ret
+
+00000142 <get_number1>:
+}
+
+uint8_t get_number1()
+{
+	return ~(NUMBERS_PIN & 0x0F);
+ 142:	89 b3       	in	r24, 0x19	; 25
+ 144:	8f 70       	andi	r24, 0x0F	; 15
+}
+ 146:	80 95       	com	r24
+ 148:	08 95       	ret
+
+0000014a <get_number2>:
+
+uint8_t get_number2()
+{
+	return ~((NUMBERS_PIN >> 4) & 0x0F);
+ 14a:	89 b3       	in	r24, 0x19	; 25
+ 14c:	82 95       	swap	r24
+ 14e:	8f 70       	andi	r24, 0x0F	; 15
+ 150:	80 95       	com	r24
+ 152:	08 95       	ret
+
+00000154 <init_port>:
+
+#include "PortController.h"
+
+void init_port()
+{
+	DDR_DIGIT1 = 0x7F;
+ 154:	8f e7       	ldi	r24, 0x7F	; 127
+ 156:	81 bb       	out	0x11, r24	; 17
+	DDR_DIGIT2 = 0x7F;	
+ 158:	84 bb       	out	0x14, r24	; 20
+	PORT_DIGIT1 = 0b11111110;
+ 15a:	8e ef       	ldi	r24, 0xFE	; 254
+ 15c:	82 bb       	out	0x12, r24	; 18
+	PORT_DIGIT2 = 0b11111110;	
+ 15e:	85 bb       	out	0x15, r24	; 21
+ 160:	08 95       	ret
+
+00000162 <write_port1>:
+}
+
+void write_port1(const bool pins[7])
+{
+ 162:	bc 01       	movw	r22, r24
+	for (uint8_t i = 0; i < 7; i++)
+ 164:	90 e0       	ldi	r25, 0x00	; 0
+ 166:	1f c0       	rjmp	.+62     	; 0x1a6 <write_port1+0x44>
+	{
+		if (pins[i])
+ 168:	fb 01       	movw	r30, r22
+ 16a:	e9 0f       	add	r30, r25
+ 16c:	f1 1d       	adc	r31, r1
+ 16e:	20 81       	ld	r18, Z
+ 170:	22 23       	and	r18, r18
+ 172:	61 f0       	breq	.+24     	; 0x18c <write_port1+0x2a>
+		{
+			PORT_DIGIT1 |= (1 << i);
+ 174:	82 b3       	in	r24, 0x12	; 18
+ 176:	21 e0       	ldi	r18, 0x01	; 1
+ 178:	30 e0       	ldi	r19, 0x00	; 0
+ 17a:	09 2e       	mov	r0, r25
+ 17c:	02 c0       	rjmp	.+4      	; 0x182 <write_port1+0x20>
+ 17e:	22 0f       	add	r18, r18
+ 180:	33 1f       	adc	r19, r19
+ 182:	0a 94       	dec	r0
+ 184:	e2 f7       	brpl	.-8      	; 0x17e <write_port1+0x1c>
+ 186:	28 2b       	or	r18, r24
+ 188:	22 bb       	out	0x12, r18	; 18
+ 18a:	0c c0       	rjmp	.+24     	; 0x1a4 <write_port1+0x42>
+		}
+		else
+		{
+			PORT_DIGIT1 &= ~(1 << i);
+ 18c:	42 b3       	in	r20, 0x12	; 18
+ 18e:	21 e0       	ldi	r18, 0x01	; 1
+ 190:	30 e0       	ldi	r19, 0x00	; 0
+ 192:	09 2e       	mov	r0, r25
+ 194:	02 c0       	rjmp	.+4      	; 0x19a <write_port1+0x38>
+ 196:	22 0f       	add	r18, r18
+ 198:	33 1f       	adc	r19, r19
+ 19a:	0a 94       	dec	r0
+ 19c:	e2 f7       	brpl	.-8      	; 0x196 <write_port1+0x34>
+ 19e:	20 95       	com	r18
+ 1a0:	24 23       	and	r18, r20
+ 1a2:	22 bb       	out	0x12, r18	; 18
+	PORT_DIGIT2 = 0b11111110;	
+}
+
+void write_port1(const bool pins[7])
+{
+	for (uint8_t i = 0; i < 7; i++)
+ 1a4:	9f 5f       	subi	r25, 0xFF	; 255
+ 1a6:	97 30       	cpi	r25, 0x07	; 7
+ 1a8:	f8 f2       	brcs	.-66     	; 0x168 <write_port1+0x6>
+		else
+		{
+			PORT_DIGIT1 &= ~(1 << i);
+		}
+	}
+}
+ 1aa:	08 95       	ret
+
+000001ac <write_port2>:
+
+void write_port2(const bool pins[7])
+{
+ 1ac:	bc 01       	movw	r22, r24
+	for (uint8_t i = 0; i < 7; i++)
+ 1ae:	90 e0       	ldi	r25, 0x00	; 0
+ 1b0:	1f c0       	rjmp	.+62     	; 0x1f0 <write_port2+0x44>
+	{
+		if (pins[i])
+ 1b2:	fb 01       	movw	r30, r22
+ 1b4:	e9 0f       	add	r30, r25
+ 1b6:	f1 1d       	adc	r31, r1
+ 1b8:	20 81       	ld	r18, Z
+ 1ba:	22 23       	and	r18, r18
+ 1bc:	61 f0       	breq	.+24     	; 0x1d6 <write_port2+0x2a>
+		{
+			PORT_DIGIT2 |= (1 << i);
+ 1be:	85 b3       	in	r24, 0x15	; 21
+ 1c0:	21 e0       	ldi	r18, 0x01	; 1
+ 1c2:	30 e0       	ldi	r19, 0x00	; 0
+ 1c4:	09 2e       	mov	r0, r25
+ 1c6:	02 c0       	rjmp	.+4      	; 0x1cc <write_port2+0x20>
+ 1c8:	22 0f       	add	r18, r18
+ 1ca:	33 1f       	adc	r19, r19
+ 1cc:	0a 94       	dec	r0
+ 1ce:	e2 f7       	brpl	.-8      	; 0x1c8 <write_port2+0x1c>
+ 1d0:	28 2b       	or	r18, r24
+ 1d2:	25 bb       	out	0x15, r18	; 21
+ 1d4:	0c c0       	rjmp	.+24     	; 0x1ee <write_port2+0x42>
+		}
+		else
+		{
+			PORT_DIGIT2 &= ~(1 << i);
+ 1d6:	45 b3       	in	r20, 0x15	; 21
+ 1d8:	21 e0       	ldi	r18, 0x01	; 1
+ 1da:	30 e0       	ldi	r19, 0x00	; 0
+ 1dc:	09 2e       	mov	r0, r25
+ 1de:	02 c0       	rjmp	.+4      	; 0x1e4 <write_port2+0x38>
+ 1e0:	22 0f       	add	r18, r18
+ 1e2:	33 1f       	adc	r19, r19
+ 1e4:	0a 94       	dec	r0
+ 1e6:	e2 f7       	brpl	.-8      	; 0x1e0 <write_port2+0x34>
+ 1e8:	20 95       	com	r18
+ 1ea:	24 23       	and	r18, r20
+ 1ec:	25 bb       	out	0x15, r18	; 21
+	}
+}
+
+void write_port2(const bool pins[7])
+{
+	for (uint8_t i = 0; i < 7; i++)
+ 1ee:	9f 5f       	subi	r25, 0xFF	; 255
+ 1f0:	97 30       	cpi	r25, 0x07	; 7
+ 1f2:	f8 f2       	brcs	.-66     	; 0x1b2 <write_port2+0x6>
+		else
+		{
+			PORT_DIGIT2 &= ~(1 << i);
+		}
+	}
+}
+ 1f4:	08 95       	ret
+
+000001f6 <_exit>:
+ 1f6:	f8 94       	cli
+
+000001f8 <__stop_program>:
+ 1f8:	ff cf       	rjmp	.-2      	; 0x1f8 <__stop_program>
