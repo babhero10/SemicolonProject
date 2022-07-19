@@ -7,15 +7,16 @@
 
 #include <avr/io.h>
 
+#define F_CPU 1000000UL
 #include "./ECU/LCD/LCD.h"
 
 int main(void)
 {
     LCD_init();
-	_delay_ms(200);
 	while (1) 
     {
-	LCD_sendLetter('a');
+	LCD_sendLetter(89);
+	
 	
     }
 }

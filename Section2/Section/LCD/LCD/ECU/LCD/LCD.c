@@ -22,7 +22,7 @@ void LCD_cmd(unsigned char command)
 	_delay_ms(10);
 	
 	// Send least significant bits
-	LCD_PORT |= (LCD_PORT & 0x0F) | ((command << 4) & 0xF0); // Clear last commands
+	LCD_PORT = (LCD_PORT & 0x0F) | ((command << 4) & 0xF0); // Clear last commands
 	
 	// Send pulse Note: (Works in fall edge)
 	LCD_PORT |= (1 << EN);
@@ -45,11 +45,11 @@ void LCD_init()
 
 void LCD_sendLetter(unsigned char character)
 {
-		LCD_PORT |= (1 << RS); // Data Resgistor mode
+		LCD_PORT |= (1 << RS); // Data Register mode
 		
 		// Send most significant bits
-		LCD_PORT |= (LCD_PORT & 0x0F) | (character & 0xF0); // Clear last character
-		
+		LCD_PORT = (LCD_PORT & 0x0F) | (character & 0xF0); // Clear last character 01011001
+
 		// Send pulse Note: (Works in fall edge)
 		LCD_PORT |= (1 << EN);
 		_delay_ms(1);
@@ -58,7 +58,7 @@ void LCD_sendLetter(unsigned char character)
 		_delay_ms(10);
 		
 		// Send least significant bits
-		LCD_PORT |= (LCD_PORT & 0x0F) | ((character << 4) & 0xF0); // Clear last character
+		LCD_PORT = (LCD_PORT & 0x0F) | ((character << 4) & 0xF0); // Clear last character
 		
 		// Send pulse Note: (Works in fall edge)
 		LCD_PORT |= (1 << EN);
