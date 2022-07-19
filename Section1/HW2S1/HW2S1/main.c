@@ -6,13 +6,16 @@
  */ 
 
 #include <avr/io.h>
-
+#include "./ECU/PortChanger.h"
 
 int main(void)
 {
-    /* Replace with your application code */
+	init_port_changer();
+	
     while (1) 
     {
-    }
+		change_DDR_depends();
+	
+	}
 }
 
