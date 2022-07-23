@@ -20,18 +20,31 @@ int main(void)
 		
     while (1) 
     {
-		a = read_input() - '0';
-		send_command(0x01);
-		send_int(a);
+		while (1)
+		{
 		
-		o = read_input();
-		send_char(o);
-		
-		b = read_input() - '0';
-		send_int(b);
-		
-		send_char('=');
-		send_int(calc(a, b, o));
+			a = read_input() - '0';
+			send_int(a);
+			
+			o = read_input();
+			if (o == 'C') {
+				send_command(0x01);
+				continue;
+			}
+			send_char(o);
+			
+			b = read_input() - '0';
+			if (b + '0' == 'C'){
+				send_command(0x01);
+				continue;
+			}
+			send_int(b);
+			
+			send_char('=');
+			send_float(calc(a, b, o));
+			read_input();		
+			send_command(0x01);	
+		}
 	}
 }
 

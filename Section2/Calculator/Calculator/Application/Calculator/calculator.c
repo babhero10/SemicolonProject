@@ -7,7 +7,7 @@
 
 #include "calculator.h"
 
-int calc(char num1, char num2, char oper)
+float calc(char num1, char num2, char oper)
 {
 	switch (oper)
 	{
@@ -18,7 +18,7 @@ int calc(char num1, char num2, char oper)
 		case 'X':
 			return num1 * num2;
 		case '/':
-			return num1 / num2;
+			return ((double)num1) / num2;
 		default:
 			return -1;
 	}

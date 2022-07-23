@@ -14,18 +14,19 @@
 #define LCD_H_
 
 #define SCRIPT_DDR  DDRC
-#define CONTROL_DDR DDRB
+#define CONTROL_DDR DDRA
 
 #define SCRIPT_PORT  PORTC
-#define CONTROL_PORT PORTB
+#define CONTROL_PORT PORTA
 
-#define EN PB1
-#define RS PB0
+#define EN 0
+#define RS 1
 
 void send_command(unsigned char cmd);
 void init_LCD();
 void send_char(char c);
 void send_string(char s[]);
 void send_int(int i);
+void send_float(float n);
 
 #endif /* LCD_H_ */

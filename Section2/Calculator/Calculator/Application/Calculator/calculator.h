@@ -11,7 +11,7 @@
 #ifndef CALCULATOR_H_
 #define CALCULATOR_H_
 
-int calc(char num1, char num2, char oper);
+float calc(char num1, char num2, char oper);
 
 
 #endif /* CALCULATOR_H_ */
