@@ -31,13 +31,16 @@ int main(void)
 				send_command(0x01);
 				continue;
 			}
+			
 			send_char(o);
 			
 			b = read_input() - '0';
+			
 			if (b + '0' == 'C'){
 				send_command(0x01);
 				continue;
 			}
+			
 			send_int(b);
 			
 			send_char('=');

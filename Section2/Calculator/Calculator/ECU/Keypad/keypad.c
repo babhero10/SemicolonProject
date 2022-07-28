@@ -7,21 +7,21 @@
 
 #include "keypad.h"
 
-const unsigned char KEYPAD[4][4] =
+/*const unsigned char KEYPAD[4][4] =
 {
 	{'7','8','9','/'},
 	{'4','5','6','X'},
 	{'1','2','3','-'},
 	{'C','0','=','+'}
-};
+};*/
 
-/*const unsigned char KEYPAD[4][4] =
+const unsigned char KEYPAD[4][4] =
 {
 	{'1','2','3','+'},
 	{'4','5','6','-'},
 	{'7','8','9','X'},
 	{'C','0','=','/'}
-};*/
+};
 
 void init_keypad()
 {
