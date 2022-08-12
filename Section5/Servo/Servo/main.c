@@ -20,14 +20,20 @@ int main(void)
     init_controller();
 	init_servo();
 	uint16_t res;
+	uint16_t last_res = 181;
     while (1) 
     {
 		res = read_controller(0);
-		write_servo(res);
-		send_int(180 * (res / 1023.0));
-		send_string("Deg");
-		_delay_ms(500);
-		send_command(0x01);
+		if (last_res != res && last_res - 1 != res && last_res + 1 != res)
+		{
+			send_command(0x01);
+			write_servo(res);
+			send_int(180 * (res / 1023.0));
+			send_string("Deg");
+			_delay_ms(250);
+			last_res = res;
+		}
+		
 	}
 }
 
