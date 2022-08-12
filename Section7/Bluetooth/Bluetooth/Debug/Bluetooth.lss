@@ -3,31 +3,31 @@ Bluetooth.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000028a  00000000  00000000  00000094  2**1
+  0 .text         00000294  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000016  00800060  0000028a  0000031e  2**0
+  1 .data         00000016  00800060  00000294  00000328  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000001  00800076  00800076  00000334  2**0
+  2 .bss          00000001  00800076  00800076  0000033e  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000334  2**0
+  3 .comment      00000030  00000000  00000000  0000033e  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000364  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000370  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000130  00000000  00000000  000003a0  2**0
+  5 .debug_aranges 00000130  00000000  00000000  000003ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001199  00000000  00000000  000004d0  2**0
+  6 .debug_info   000011b3  00000000  00000000  000004dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000009dd  00000000  00000000  00001669  2**0
+  7 .debug_abbrev 000009d2  00000000  00000000  0000168f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000008a7  00000000  00000000  00002046  2**0
+  8 .debug_line   000008bb  00000000  00000000  00002061  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002bc  00000000  00000000  000028f0  2**2
+  9 .debug_frame  000002bc  00000000  00000000  0000291c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000051f  00000000  00000000  00002bac  2**0
+ 10 .debug_str    0000051f  00000000  00000000  00002bd8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000994  00000000  00000000  000030cb  2**0
+ 11 .debug_loc    00000994  00000000  00000000  000030f7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f0  00000000  00000000  00003a5f  2**0
+ 12 .debug_ranges 000000f0  00000000  00000000  00003a8b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,7 +67,7 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	ea e8       	ldi	r30, 0x8A	; 138
+  66:	e4 e9       	ldi	r30, 0x94	; 148
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
@@ -89,349 +89,360 @@ Disassembly of section .text:
   80:	a7 37       	cpi	r26, 0x77	; 119
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <main>
-  8a:	0c 94 43 01 	jmp	0x286	; 0x286 <_exit>
+  86:	0e 94 ef 00 	call	0x1de	; 0x1de <main>
+  8a:	0c 94 48 01 	jmp	0x290	; 0x290 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <bluetooth_init>:
+
+#include "Bluetooth.h"
+#include "./../../MCAL/UART/UART.h"
+
+void bluetooth_init() {
 	UART_init();
+  92:	0e 94 0c 01 	call	0x218	; 0x218 <UART_init>
+  96:	08 95       	ret
+
+00000098 <bluetooth_read_char>:
 }
 
 uint8_t bluetooth_read_char() {
 	return UART_read_char();	
-}
-  92:	0e 94 07 01 	call	0x20e	; 0x20e <UART_init>
-  96:	08 95       	ret
-
-00000098 <bluetooth_read_string>:
-
-char* bluetooth_read_string(char s[]) {
-	return UART_read_string(s);
-  98:	0e 94 1e 01 	call	0x23c	; 0x23c <UART_read_string>
+  98:	0e 94 1f 01 	call	0x23e	; 0x23e <UART_read_char>
 }
   9c:	08 95       	ret
 
-0000009e <save>:
+0000009e <bluetooth_read_string>:
+
+char* bluetooth_read_string(char s[]) {
+	return UART_read_string(s);
+  9e:	0e 94 23 01 	call	0x246	; 0x246 <UART_read_string>
+}
+  a2:	08 95       	ret
+
+000000a4 <save>:
 			break;
 		case 1:
 			send_command(0x0E);
 			break;
 		case 2:
 			send_command(0x0F);
-  9e:	82 b3       	in	r24, 0x12	; 18
-  a0:	84 60       	ori	r24, 0x04	; 4
-  a2:	82 bb       	out	0x12, r24	; 18
-  a4:	83 e0       	ldi	r24, 0x03	; 3
-  a6:	8a 95       	dec	r24
-  a8:	f1 f7       	brne	.-4      	; 0xa6 <save+0x8>
-  aa:	00 00       	nop
-  ac:	82 b3       	in	r24, 0x12	; 18
-  ae:	8b 7f       	andi	r24, 0xFB	; 251
-  b0:	82 bb       	out	0x12, r24	; 18
-  b2:	08 95       	ret
+  a4:	82 b3       	in	r24, 0x12	; 18
+  a6:	84 60       	ori	r24, 0x04	; 4
+  a8:	82 bb       	out	0x12, r24	; 18
+  aa:	83 e0       	ldi	r24, 0x03	; 3
+  ac:	8a 95       	dec	r24
+  ae:	f1 f7       	brne	.-4      	; 0xac <save+0x8>
+  b0:	00 00       	nop
+  b2:	82 b3       	in	r24, 0x12	; 18
+  b4:	8b 7f       	andi	r24, 0xFB	; 251
+  b6:	82 bb       	out	0x12, r24	; 18
+  b8:	08 95       	ret
 
-000000b4 <send_command>:
-  b4:	cf 93       	push	r28
-  b6:	c8 2f       	mov	r28, r24
-  b8:	82 b3       	in	r24, 0x12	; 18
-  ba:	87 7f       	andi	r24, 0xF7	; 247
-  bc:	82 bb       	out	0x12, r24	; 18
-  be:	80 91 76 00 	lds	r24, 0x0076	; 0x800076 <__data_end>
-  c2:	88 23       	and	r24, r24
-  c4:	21 f0       	breq	.+8      	; 0xce <send_command+0x1a>
-  c6:	c5 bb       	out	0x15, r28	; 21
-  c8:	0e 94 4f 00 	call	0x9e	; 0x9e <save>
-  cc:	16 c0       	rjmp	.+44     	; 0xfa <send_command+0x46>
-  ce:	85 b3       	in	r24, 0x15	; 21
-  d0:	8f 70       	andi	r24, 0x0F	; 15
-  d2:	85 bb       	out	0x15, r24	; 21
+000000ba <send_command>:
+  ba:	cf 93       	push	r28
+  bc:	c8 2f       	mov	r28, r24
+  be:	82 b3       	in	r24, 0x12	; 18
+  c0:	87 7f       	andi	r24, 0xF7	; 247
+  c2:	82 bb       	out	0x12, r24	; 18
+  c4:	80 91 76 00 	lds	r24, 0x0076	; 0x800076 <__data_end>
+  c8:	88 23       	and	r24, r24
+  ca:	21 f0       	breq	.+8      	; 0xd4 <send_command+0x1a>
+  cc:	c5 bb       	out	0x15, r28	; 21
+  ce:	0e 94 52 00 	call	0xa4	; 0xa4 <save>
+  d2:	16 c0       	rjmp	.+44     	; 0x100 <send_command+0x46>
   d4:	85 b3       	in	r24, 0x15	; 21
-  d6:	9c 2f       	mov	r25, r28
-  d8:	90 7f       	andi	r25, 0xF0	; 240
-  da:	89 2b       	or	r24, r25
-  dc:	85 bb       	out	0x15, r24	; 21
-  de:	0e 94 4f 00 	call	0x9e	; 0x9e <save>
-  e2:	85 b3       	in	r24, 0x15	; 21
-  e4:	8f 70       	andi	r24, 0x0F	; 15
-  e6:	85 bb       	out	0x15, r24	; 21
-  e8:	25 b3       	in	r18, 0x15	; 21
-  ea:	30 e1       	ldi	r19, 0x10	; 16
-  ec:	c3 9f       	mul	r28, r19
-  ee:	c0 01       	movw	r24, r0
-  f0:	11 24       	eor	r1, r1
-  f2:	82 2b       	or	r24, r18
-  f4:	85 bb       	out	0x15, r24	; 21
-  f6:	0e 94 4f 00 	call	0x9e	; 0x9e <save>
-  fa:	83 ec       	ldi	r24, 0xC3	; 195
-  fc:	99 e0       	ldi	r25, 0x09	; 9
-  fe:	01 97       	sbiw	r24, 0x01	; 1
- 100:	f1 f7       	brne	.-4      	; 0xfe <send_command+0x4a>
- 102:	00 c0       	rjmp	.+0      	; 0x104 <send_command+0x50>
- 104:	00 00       	nop
- 106:	cf 91       	pop	r28
- 108:	08 95       	ret
+  d6:	8f 70       	andi	r24, 0x0F	; 15
+  d8:	85 bb       	out	0x15, r24	; 21
+  da:	85 b3       	in	r24, 0x15	; 21
+  dc:	9c 2f       	mov	r25, r28
+  de:	90 7f       	andi	r25, 0xF0	; 240
+  e0:	89 2b       	or	r24, r25
+  e2:	85 bb       	out	0x15, r24	; 21
+  e4:	0e 94 52 00 	call	0xa4	; 0xa4 <save>
+  e8:	85 b3       	in	r24, 0x15	; 21
+  ea:	8f 70       	andi	r24, 0x0F	; 15
+  ec:	85 bb       	out	0x15, r24	; 21
+  ee:	25 b3       	in	r18, 0x15	; 21
+  f0:	30 e1       	ldi	r19, 0x10	; 16
+  f2:	c3 9f       	mul	r28, r19
+  f4:	c0 01       	movw	r24, r0
+  f6:	11 24       	eor	r1, r1
+  f8:	82 2b       	or	r24, r18
+  fa:	85 bb       	out	0x15, r24	; 21
+  fc:	0e 94 52 00 	call	0xa4	; 0xa4 <save>
+ 100:	83 ec       	ldi	r24, 0xC3	; 195
+ 102:	99 e0       	ldi	r25, 0x09	; 9
+ 104:	01 97       	sbiw	r24, 0x01	; 1
+ 106:	f1 f7       	brne	.-4      	; 0x104 <send_command+0x4a>
+ 108:	00 c0       	rjmp	.+0      	; 0x10a <send_command+0x50>
+ 10a:	00 00       	nop
+ 10c:	cf 91       	pop	r28
+ 10e:	08 95       	ret
 
-0000010a <init_LCD_8bit>:
- 10a:	81 e0       	ldi	r24, 0x01	; 1
- 10c:	80 93 76 00 	sts	0x0076, r24	; 0x800076 <__data_end>
- 110:	81 b3       	in	r24, 0x11	; 17
- 112:	8c 60       	ori	r24, 0x0C	; 12
- 114:	81 bb       	out	0x11, r24	; 17
- 116:	8f ef       	ldi	r24, 0xFF	; 255
- 118:	84 bb       	out	0x14, r24	; 20
- 11a:	88 e3       	ldi	r24, 0x38	; 56
- 11c:	0e 94 5a 00 	call	0xb4	; 0xb4 <send_command>
- 120:	81 e0       	ldi	r24, 0x01	; 1
- 122:	0e 94 5a 00 	call	0xb4	; 0xb4 <send_command>
- 126:	8e e0       	ldi	r24, 0x0E	; 14
- 128:	0e 94 5a 00 	call	0xb4	; 0xb4 <send_command>
- 12c:	08 95       	ret
+00000110 <init_LCD_8bit>:
+ 110:	81 e0       	ldi	r24, 0x01	; 1
+ 112:	80 93 76 00 	sts	0x0076, r24	; 0x800076 <__data_end>
+ 116:	81 b3       	in	r24, 0x11	; 17
+ 118:	8c 60       	ori	r24, 0x0C	; 12
+ 11a:	81 bb       	out	0x11, r24	; 17
+ 11c:	8f ef       	ldi	r24, 0xFF	; 255
+ 11e:	84 bb       	out	0x14, r24	; 20
+ 120:	88 e3       	ldi	r24, 0x38	; 56
+ 122:	0e 94 5d 00 	call	0xba	; 0xba <send_command>
+ 126:	81 e0       	ldi	r24, 0x01	; 1
+ 128:	0e 94 5d 00 	call	0xba	; 0xba <send_command>
+ 12c:	8e e0       	ldi	r24, 0x0E	; 14
+ 12e:	0e 94 5d 00 	call	0xba	; 0xba <send_command>
+ 132:	08 95       	ret
 
-0000012e <send_letter>:
- 12e:	cf 93       	push	r28
- 130:	c8 2f       	mov	r28, r24
- 132:	82 b3       	in	r24, 0x12	; 18
- 134:	88 60       	ori	r24, 0x08	; 8
- 136:	82 bb       	out	0x12, r24	; 18
- 138:	80 91 76 00 	lds	r24, 0x0076	; 0x800076 <__data_end>
- 13c:	88 23       	and	r24, r24
- 13e:	21 f0       	breq	.+8      	; 0x148 <send_letter+0x1a>
- 140:	c5 bb       	out	0x15, r28	; 21
- 142:	0e 94 4f 00 	call	0x9e	; 0x9e <save>
- 146:	16 c0       	rjmp	.+44     	; 0x174 <send_letter+0x46>
- 148:	85 b3       	in	r24, 0x15	; 21
- 14a:	8f 70       	andi	r24, 0x0F	; 15
- 14c:	85 bb       	out	0x15, r24	; 21
+00000134 <send_letter>:
+ 134:	cf 93       	push	r28
+ 136:	c8 2f       	mov	r28, r24
+ 138:	82 b3       	in	r24, 0x12	; 18
+ 13a:	88 60       	ori	r24, 0x08	; 8
+ 13c:	82 bb       	out	0x12, r24	; 18
+ 13e:	80 91 76 00 	lds	r24, 0x0076	; 0x800076 <__data_end>
+ 142:	88 23       	and	r24, r24
+ 144:	21 f0       	breq	.+8      	; 0x14e <send_letter+0x1a>
+ 146:	c5 bb       	out	0x15, r28	; 21
+ 148:	0e 94 52 00 	call	0xa4	; 0xa4 <save>
+ 14c:	16 c0       	rjmp	.+44     	; 0x17a <send_letter+0x46>
  14e:	85 b3       	in	r24, 0x15	; 21
- 150:	9c 2f       	mov	r25, r28
- 152:	90 7f       	andi	r25, 0xF0	; 240
- 154:	89 2b       	or	r24, r25
- 156:	85 bb       	out	0x15, r24	; 21
- 158:	0e 94 4f 00 	call	0x9e	; 0x9e <save>
- 15c:	85 b3       	in	r24, 0x15	; 21
- 15e:	8f 70       	andi	r24, 0x0F	; 15
- 160:	85 bb       	out	0x15, r24	; 21
- 162:	25 b3       	in	r18, 0x15	; 21
- 164:	30 e1       	ldi	r19, 0x10	; 16
- 166:	c3 9f       	mul	r28, r19
- 168:	c0 01       	movw	r24, r0
- 16a:	11 24       	eor	r1, r1
- 16c:	82 2b       	or	r24, r18
- 16e:	85 bb       	out	0x15, r24	; 21
- 170:	0e 94 4f 00 	call	0x9e	; 0x9e <save>
- 174:	83 ec       	ldi	r24, 0xC3	; 195
- 176:	99 e0       	ldi	r25, 0x09	; 9
- 178:	01 97       	sbiw	r24, 0x01	; 1
- 17a:	f1 f7       	brne	.-4      	; 0x178 <send_letter+0x4a>
- 17c:	00 c0       	rjmp	.+0      	; 0x17e <send_letter+0x50>
- 17e:	00 00       	nop
- 180:	cf 91       	pop	r28
- 182:	08 95       	ret
+ 150:	8f 70       	andi	r24, 0x0F	; 15
+ 152:	85 bb       	out	0x15, r24	; 21
+ 154:	85 b3       	in	r24, 0x15	; 21
+ 156:	9c 2f       	mov	r25, r28
+ 158:	90 7f       	andi	r25, 0xF0	; 240
+ 15a:	89 2b       	or	r24, r25
+ 15c:	85 bb       	out	0x15, r24	; 21
+ 15e:	0e 94 52 00 	call	0xa4	; 0xa4 <save>
+ 162:	85 b3       	in	r24, 0x15	; 21
+ 164:	8f 70       	andi	r24, 0x0F	; 15
+ 166:	85 bb       	out	0x15, r24	; 21
+ 168:	25 b3       	in	r18, 0x15	; 21
+ 16a:	30 e1       	ldi	r19, 0x10	; 16
+ 16c:	c3 9f       	mul	r28, r19
+ 16e:	c0 01       	movw	r24, r0
+ 170:	11 24       	eor	r1, r1
+ 172:	82 2b       	or	r24, r18
+ 174:	85 bb       	out	0x15, r24	; 21
+ 176:	0e 94 52 00 	call	0xa4	; 0xa4 <save>
+ 17a:	83 ec       	ldi	r24, 0xC3	; 195
+ 17c:	99 e0       	ldi	r25, 0x09	; 9
+ 17e:	01 97       	sbiw	r24, 0x01	; 1
+ 180:	f1 f7       	brne	.-4      	; 0x17e <send_letter+0x4a>
+ 182:	00 c0       	rjmp	.+0      	; 0x184 <send_letter+0x50>
+ 184:	00 00       	nop
+ 186:	cf 91       	pop	r28
+ 188:	08 95       	ret
 
-00000184 <send_string>:
- 184:	0f 93       	push	r16
- 186:	1f 93       	push	r17
- 188:	cf 93       	push	r28
- 18a:	8c 01       	movw	r16, r24
- 18c:	c0 e0       	ldi	r28, 0x00	; 0
- 18e:	03 c0       	rjmp	.+6      	; 0x196 <send_string+0x12>
- 190:	0e 94 97 00 	call	0x12e	; 0x12e <send_letter>
- 194:	cf 5f       	subi	r28, 0xFF	; 255
- 196:	f8 01       	movw	r30, r16
- 198:	ec 0f       	add	r30, r28
- 19a:	f1 1d       	adc	r31, r1
- 19c:	80 81       	ld	r24, Z
- 19e:	81 11       	cpse	r24, r1
- 1a0:	f7 cf       	rjmp	.-18     	; 0x190 <send_string+0xc>
- 1a2:	cf 91       	pop	r28
- 1a4:	1f 91       	pop	r17
- 1a6:	0f 91       	pop	r16
- 1a8:	08 95       	ret
+0000018a <send_string>:
+ 18a:	0f 93       	push	r16
+ 18c:	1f 93       	push	r17
+ 18e:	cf 93       	push	r28
+ 190:	8c 01       	movw	r16, r24
+ 192:	c0 e0       	ldi	r28, 0x00	; 0
+ 194:	03 c0       	rjmp	.+6      	; 0x19c <send_string+0x12>
+ 196:	0e 94 9a 00 	call	0x134	; 0x134 <send_letter>
+ 19a:	cf 5f       	subi	r28, 0xFF	; 255
+ 19c:	f8 01       	movw	r30, r16
+ 19e:	ec 0f       	add	r30, r28
+ 1a0:	f1 1d       	adc	r31, r1
+ 1a2:	80 81       	ld	r24, Z
+ 1a4:	81 11       	cpse	r24, r1
+ 1a6:	f7 cf       	rjmp	.-18     	; 0x196 <send_string+0xc>
+ 1a8:	cf 91       	pop	r28
+ 1aa:	1f 91       	pop	r17
+ 1ac:	0f 91       	pop	r16
+ 1ae:	08 95       	ret
 
-000001aa <set_cursor>:
- 1aa:	61 11       	cpse	r22, r1
- 1ac:	04 c0       	rjmp	.+8      	; 0x1b6 <set_cursor+0xc>
- 1ae:	80 58       	subi	r24, 0x80	; 128
- 1b0:	0e 94 5a 00 	call	0xb4	; 0xb4 <send_command>
- 1b4:	08 95       	ret
- 1b6:	80 54       	subi	r24, 0x40	; 64
- 1b8:	0e 94 5a 00 	call	0xb4	; 0xb4 <send_command>
- 1bc:	08 95       	ret
+000001b0 <set_cursor>:
+ 1b0:	61 11       	cpse	r22, r1
+ 1b2:	04 c0       	rjmp	.+8      	; 0x1bc <set_cursor+0xc>
+ 1b4:	80 58       	subi	r24, 0x80	; 128
+ 1b6:	0e 94 5d 00 	call	0xba	; 0xba <send_command>
+ 1ba:	08 95       	ret
+ 1bc:	80 54       	subi	r24, 0x40	; 64
+ 1be:	0e 94 5d 00 	call	0xba	; 0xba <send_command>
+ 1c2:	08 95       	ret
 
-000001be <send_string_at>:
+000001c4 <send_string_at>:
 			break;
 	}
 }
 
 void send_string_at(char s[], char x, char y) {
- 1be:	cf 93       	push	r28
- 1c0:	df 93       	push	r29
- 1c2:	ec 01       	movw	r28, r24
- 1c4:	86 2f       	mov	r24, r22
+ 1c4:	cf 93       	push	r28
+ 1c6:	df 93       	push	r29
+ 1c8:	ec 01       	movw	r28, r24
+ 1ca:	86 2f       	mov	r24, r22
 	set_cursor(x, y);
- 1c6:	64 2f       	mov	r22, r20
- 1c8:	0e 94 d5 00 	call	0x1aa	; 0x1aa <set_cursor>
+ 1cc:	64 2f       	mov	r22, r20
+ 1ce:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <set_cursor>
 	send_string(s);
- 1cc:	ce 01       	movw	r24, r28
- 1ce:	0e 94 c2 00 	call	0x184	; 0x184 <send_string>
+ 1d2:	ce 01       	movw	r24, r28
+ 1d4:	0e 94 c5 00 	call	0x18a	; 0x18a <send_string>
 }
- 1d2:	df 91       	pop	r29
- 1d4:	cf 91       	pop	r28
- 1d6:	08 95       	ret
+ 1d8:	df 91       	pop	r29
+ 1da:	cf 91       	pop	r28
+ 1dc:	08 95       	ret
 
-000001d8 <main>:
+000001de <main>:
 #include "./ECU/Bluetooth/Bluetooth.h"
 #include "./ECU/LCD/LCD2x16.h"
 #include <util/delay.h>
 
 int main(void)
 {
- 1d8:	cf 93       	push	r28
- 1da:	df 93       	push	r29
- 1dc:	cd b7       	in	r28, 0x3d	; 61
- 1de:	de b7       	in	r29, 0x3e	; 62
- 1e0:	a2 97       	sbiw	r28, 0x22	; 34
- 1e2:	0f b6       	in	r0, 0x3f	; 63
- 1e4:	f8 94       	cli
- 1e6:	de bf       	out	0x3e, r29	; 62
- 1e8:	0f be       	out	0x3f, r0	; 63
- 1ea:	cd bf       	out	0x3d, r28	; 61
+ 1de:	cf 93       	push	r28
+ 1e0:	df 93       	push	r29
+ 1e2:	cd b7       	in	r28, 0x3d	; 61
+ 1e4:	de b7       	in	r29, 0x3e	; 62
+ 1e6:	a2 97       	sbiw	r28, 0x22	; 34
+ 1e8:	0f b6       	in	r0, 0x3f	; 63
+ 1ea:	f8 94       	cli
+ 1ec:	de bf       	out	0x3e, r29	; 62
+ 1ee:	0f be       	out	0x3f, r0	; 63
+ 1f0:	cd bf       	out	0x3d, r28	; 61
 	bluetooth_init();
- 1ec:	0e 94 49 00 	call	0x92	; 0x92 <bluetooth_init>
+ 1f2:	0e 94 49 00 	call	0x92	; 0x92 <bluetooth_init>
     init_LCD_8bit();
- 1f0:	0e 94 85 00 	call	0x10a	; 0x10a <init_LCD_8bit>
+ 1f6:	0e 94 88 00 	call	0x110	; 0x110 <init_LCD_8bit>
 	send_string("hi!");
- 1f4:	80 e6       	ldi	r24, 0x60	; 96
- 1f6:	90 e0       	ldi	r25, 0x00	; 0
- 1f8:	0e 94 c2 00 	call	0x184	; 0x184 <send_string>
+ 1fa:	80 e6       	ldi	r24, 0x60	; 96
+ 1fc:	90 e0       	ldi	r25, 0x00	; 0
+ 1fe:	0e 94 c5 00 	call	0x18a	; 0x18a <send_string>
 	char s[34];
     while (1) 
     {
 		send_string_at(bluetooth_read_string(s), 0, 1);
- 1fc:	ce 01       	movw	r24, r28
- 1fe:	01 96       	adiw	r24, 0x01	; 1
- 200:	0e 94 4c 00 	call	0x98	; 0x98 <bluetooth_read_string>
- 204:	41 e0       	ldi	r20, 0x01	; 1
- 206:	60 e0       	ldi	r22, 0x00	; 0
- 208:	0e 94 df 00 	call	0x1be	; 0x1be <send_string_at>
- 20c:	f7 cf       	rjmp	.-18     	; 0x1fc <main+0x24>
+ 202:	ce 01       	movw	r24, r28
+ 204:	01 96       	adiw	r24, 0x01	; 1
+ 206:	0e 94 4f 00 	call	0x9e	; 0x9e <bluetooth_read_string>
+ 20a:	41 e0       	ldi	r20, 0x01	; 1
+ 20c:	60 e0       	ldi	r22, 0x00	; 0
+ 20e:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <send_string_at>
+		bluetooth_read_char(); // comment if the sender didn't send the null character
+ 212:	0e 94 4c 00 	call	0x98	; 0x98 <bluetooth_read_char>
+ 216:	f5 cf       	rjmp	.-22     	; 0x202 <__EEPROM_REGION_LENGTH__+0x2>
 
-0000020e <UART_init>:
+00000218 <UART_init>:
 #include <avr/io.h>
 #include <string.h>
 #include "UART.h"
 
 void UART_init() {
 	DDRD &= ~(1 << PD0);
- 20e:	81 b3       	in	r24, 0x11	; 17
- 210:	8e 7f       	andi	r24, 0xFE	; 254
- 212:	81 bb       	out	0x11, r24	; 17
+ 218:	81 b3       	in	r24, 0x11	; 17
+ 21a:	8e 7f       	andi	r24, 0xFE	; 254
+ 21c:	81 bb       	out	0x11, r24	; 17
 	DDRD |= (1 << PD1);
- 214:	81 b3       	in	r24, 0x11	; 17
- 216:	82 60       	ori	r24, 0x02	; 2
- 218:	81 bb       	out	0x11, r24	; 17
+ 21e:	81 b3       	in	r24, 0x11	; 17
+ 220:	82 60       	ori	r24, 0x02	; 2
+ 222:	81 bb       	out	0x11, r24	; 17
 	
 	UCSRA |= (1 << U2X);
- 21a:	8b b1       	in	r24, 0x0b	; 11
- 21c:	82 60       	ori	r24, 0x02	; 2
- 21e:	8b b9       	out	0x0b, r24	; 11
+ 224:	8b b1       	in	r24, 0x0b	; 11
+ 226:	82 60       	ori	r24, 0x02	; 2
+ 228:	8b b9       	out	0x0b, r24	; 11
 	UCSRB |= (1 << RXEN) | (1 << TXEN);
- 220:	8a b1       	in	r24, 0x0a	; 10
- 222:	88 61       	ori	r24, 0x18	; 24
- 224:	8a b9       	out	0x0a, r24	; 10
+ 22a:	8a b1       	in	r24, 0x0a	; 10
+ 22c:	88 61       	ori	r24, 0x18	; 24
+ 22e:	8a b9       	out	0x0a, r24	; 10
 	UCSRC |= (1 << URSEL) | (1 << UCSZ0) | (1 << UCSZ1);
- 226:	80 b5       	in	r24, 0x20	; 32
- 228:	86 68       	ori	r24, 0x86	; 134
- 22a:	80 bd       	out	0x20, r24	; 32
+ 230:	80 b5       	in	r24, 0x20	; 32
+ 232:	86 68       	ori	r24, 0x86	; 134
+ 234:	80 bd       	out	0x20, r24	; 32
 	
 	// Band rate 9600
 	UBRRL = 12;
- 22c:	8c e0       	ldi	r24, 0x0C	; 12
- 22e:	89 b9       	out	0x09, r24	; 9
+ 236:	8c e0       	ldi	r24, 0x0C	; 12
+ 238:	89 b9       	out	0x09, r24	; 9
 	UBRRH = 0;
- 230:	10 bc       	out	0x20, r1	; 32
- 232:	08 95       	ret
+ 23a:	10 bc       	out	0x20, r1	; 32
+ 23c:	08 95       	ret
 
-00000234 <UART_read_char>:
+0000023e <UART_read_char>:
 }
 
 uint8_t UART_read_char() {
 	while ((UCSRA & (1 << RXC)) == 0);
- 234:	5f 9b       	sbis	0x0b, 7	; 11
- 236:	fe cf       	rjmp	.-4      	; 0x234 <UART_read_char>
+ 23e:	5f 9b       	sbis	0x0b, 7	; 11
+ 240:	fe cf       	rjmp	.-4      	; 0x23e <UART_read_char>
 	
 	return UDR;
- 238:	8c b1       	in	r24, 0x0c	; 12
+ 242:	8c b1       	in	r24, 0x0c	; 12
 		
 }
- 23a:	08 95       	ret
+ 244:	08 95       	ret
 
-0000023c <UART_read_string>:
+00000246 <UART_read_string>:
 
 char* UART_read_string(char s[]) {
- 23c:	0f 93       	push	r16
- 23e:	1f 93       	push	r17
- 240:	cf 93       	push	r28
- 242:	8c 01       	movw	r16, r24
+ 246:	0f 93       	push	r16
+ 248:	1f 93       	push	r17
+ 24a:	cf 93       	push	r28
+ 24c:	8c 01       	movw	r16, r24
 	uint8_t i = 0;
 	char c;
 	strcpy(s, "                ");
- 244:	81 e1       	ldi	r24, 0x11	; 17
- 246:	e4 e6       	ldi	r30, 0x64	; 100
- 248:	f0 e0       	ldi	r31, 0x00	; 0
- 24a:	d8 01       	movw	r26, r16
- 24c:	01 90       	ld	r0, Z+
- 24e:	0d 92       	st	X+, r0
- 250:	8a 95       	dec	r24
- 252:	e1 f7       	brne	.-8      	; 0x24c <UART_read_string+0x10>
+ 24e:	81 e1       	ldi	r24, 0x11	; 17
+ 250:	e4 e6       	ldi	r30, 0x64	; 100
+ 252:	f0 e0       	ldi	r31, 0x00	; 0
+ 254:	d8 01       	movw	r26, r16
+ 256:	01 90       	ld	r0, Z+
+ 258:	0d 92       	st	X+, r0
+ 25a:	8a 95       	dec	r24
+ 25c:	e1 f7       	brne	.-8      	; 0x256 <UART_read_string+0x10>
 	return UDR;
 		
 }
 
 char* UART_read_string(char s[]) {
 	uint8_t i = 0;
- 254:	c0 e0       	ldi	r28, 0x00	; 0
+ 25e:	c0 e0       	ldi	r28, 0x00	; 0
 	char c;
 	strcpy(s, "                ");
 	while (1)
 	{
 		c = UART_read_char();
- 256:	0e 94 1a 01 	call	0x234	; 0x234 <UART_read_char>
-		if (c == '\n' || c == '\0') break;
- 25a:	8a 30       	cpi	r24, 0x0A	; 10
- 25c:	41 f0       	breq	.+16     	; 0x26e <UART_read_string+0x32>
- 25e:	88 23       	and	r24, r24
- 260:	31 f0       	breq	.+12     	; 0x26e <UART_read_string+0x32>
+ 260:	0e 94 1f 01 	call	0x23e	; 0x23e <UART_read_char>
+		if (c == '\r' || c == '\n' || c == '\0') break;
+ 264:	8d 30       	cpi	r24, 0x0D	; 13
+ 266:	51 f0       	breq	.+20     	; 0x27c <UART_read_string+0x36>
+ 268:	8a 30       	cpi	r24, 0x0A	; 10
+ 26a:	41 f0       	breq	.+16     	; 0x27c <UART_read_string+0x36>
+ 26c:	88 23       	and	r24, r24
+ 26e:	31 f0       	breq	.+12     	; 0x27c <UART_read_string+0x36>
 		s[i++] = c;
- 262:	f8 01       	movw	r30, r16
- 264:	ec 0f       	add	r30, r28
- 266:	f1 1d       	adc	r31, r1
- 268:	80 83       	st	Z, r24
- 26a:	cf 5f       	subi	r28, 0xFF	; 255
+ 270:	f8 01       	movw	r30, r16
+ 272:	ec 0f       	add	r30, r28
+ 274:	f1 1d       	adc	r31, r1
+ 276:	80 83       	st	Z, r24
+ 278:	cf 5f       	subi	r28, 0xFF	; 255
 	}
- 26c:	f4 cf       	rjmp	.-24     	; 0x256 <UART_read_string+0x1a>
+ 27a:	f2 cf       	rjmp	.-28     	; 0x260 <UART_read_string+0x1a>
 	
-	s[i - 1] = ' ';
- 26e:	ec 2f       	mov	r30, r28
- 270:	f0 e0       	ldi	r31, 0x00	; 0
- 272:	31 97       	sbiw	r30, 0x01	; 1
- 274:	e0 0f       	add	r30, r16
- 276:	f1 1f       	adc	r31, r17
- 278:	80 e2       	ldi	r24, 0x20	; 32
- 27a:	80 83       	st	Z, r24
+	s[i] = ' ';
+ 27c:	f8 01       	movw	r30, r16
+ 27e:	ec 0f       	add	r30, r28
+ 280:	f1 1d       	adc	r31, r1
+ 282:	80 e2       	ldi	r24, 0x20	; 32
+ 284:	80 83       	st	Z, r24
 	
 	return s;
 }
- 27c:	c8 01       	movw	r24, r16
- 27e:	cf 91       	pop	r28
- 280:	1f 91       	pop	r17
- 282:	0f 91       	pop	r16
- 284:	08 95       	ret
+ 286:	c8 01       	movw	r24, r16
+ 288:	cf 91       	pop	r28
+ 28a:	1f 91       	pop	r17
+ 28c:	0f 91       	pop	r16
+ 28e:	08 95       	ret
 
-00000286 <_exit>:
- 286:	f8 94       	cli
+00000290 <_exit>:
+ 290:	f8 94       	cli
 
-00000288 <__stop_program>:
- 288:	ff cf       	rjmp	.-2      	; 0x288 <__stop_program>
+00000292 <__stop_program>:
+ 292:	ff cf       	rjmp	.-2      	; 0x292 <__stop_program>

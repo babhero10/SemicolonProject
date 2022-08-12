@@ -36,11 +36,11 @@ char* UART_read_string(char s[]) {
 	while (1)
 	{
 		c = UART_read_char();
-		if (c == '\n' || c == '\0') break;
+		if (c == '\r' || c == '\n' || c == '\0') break;
 		s[i++] = c;
 	}
 	
-	s[i - 1] = ' ';
+	s[i] = ' ';
 	
 	return s;
 }

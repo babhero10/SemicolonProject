@@ -18,6 +18,7 @@ int main(void)
     while (1) 
     {
 		send_string_at(bluetooth_read_string(s), 0, 1);
+		bluetooth_read_char(); // comment if the sender didn't send the null character
     }
 }
 
